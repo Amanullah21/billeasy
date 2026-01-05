@@ -28,7 +28,14 @@ export default defineConfig({
   ],
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
   use: {
-    /* Base URL to use in actions like `await page.goto('/')`. */
+    /* 
+     * Base URL for E2E Testing (Playwright)
+     * E2E tests target: https://www.saucedemo.com
+     * 
+     * Note: Load tests (K6) use a different base URL:
+     * K6 load tests target: https://jsonplaceholder.typicode.com
+     * See load-tests/k6-scripts/*.js files for K6 configuration
+     */
     baseURL: 'https://www.saucedemo.com',
     /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
     trace: 'on-first-retry',

@@ -95,8 +95,20 @@ billeasy/
 │   └── constants.ts
 ├── load-tests/                 # Load testing scripts
 │   ├── k6-scripts/
+│   │   ├── 01-load-test.js
+│   │   ├── 02-stress-test.js
+│   │   ├── 03-spike-test.js
+│   │   ├── 04-soak-test.js
+│   │   ├── 05-scalability-test.js
+│   │   ├── 06-crud-operations-test.js
+│   │   ├── 07-error-handling-test.js
+│   │   ├── 08-concurrent-requests-test.js
+│   │   ├── 09-volume-test.js
+│   │   ├── 10-performance-benchmark-test.js
 │   │   └── api-load-test.js
-│   └── README.md
+│   ├── run-all-tests.sh        # Script to run all K6 tests
+│   ├── README.md
+│   └── FAST-TESTING-CONFIG.md  # Fast testing configuration guide
 ├── reports/                    # Test reports and screenshots
 │   └── .gitkeep
 ├── playwright.config.ts       # Playwright configuration
@@ -104,6 +116,52 @@ billeasy/
 ├── tsconfig.json
 ├── .gitignore
 └── README.md
+```
+
+## Quick Reference - All Commands
+
+### E2E Testing (Playwright)
+
+```bash
+# Run all E2E tests
+npm test                          # Headless mode (default)
+npm run test:headed              # Headed mode (see browser)
+npm run test:chrome              # Chrome only
+npm run test:firefox             # Firefox only
+npm run test:debug               # Debug mode
+npm run test:ui                   # Interactive UI mode
+npm run test:report               # View HTML report
+
+# Run specific test files
+npx playwright test tests/e2e/login.spec.ts
+npx playwright test tests/e2e/navigation.spec.ts
+npx playwright test tests/e2e/form-submission.spec.ts
+npx playwright test tests/e2e/checkout-flow.spec.ts
+npx playwright test tests/e2e/error-handling.spec.ts
+```
+
+### Load Testing (K6)
+
+```bash
+# Run all K6 tests (single command)
+npm run load-test:all            # All 11 test scripts (~10-15 min)
+
+# Run quick test suite
+npm run load-test:quick          # First 3 scripts (~3-5 min)
+
+# Run individual K6 tests
+npm run load-test                # Basic API load test
+k6 run load-tests/k6-scripts/01-load-test.js
+k6 run load-tests/k6-scripts/02-stress-test.js
+k6 run load-tests/k6-scripts/03-spike-test.js
+k6 run load-tests/k6-scripts/04-soak-test.js
+k6 run load-tests/k6-scripts/05-scalability-test.js
+k6 run load-tests/k6-scripts/06-crud-operations-test.js
+k6 run load-tests/k6-scripts/07-error-handling-test.js
+k6 run load-tests/k6-scripts/08-concurrent-requests-test.js
+k6 run load-tests/k6-scripts/09-volume-test.js
+k6 run load-tests/k6-scripts/10-performance-benchmark-test.js
+k6 run load-tests/k6-scripts/api-load-test.js
 ```
 
 ## Running Tests
@@ -153,36 +211,94 @@ npx playwright codegen https://automationexercise.com
 
 ### NPM Scripts
 
-Add these to your `package.json`:
+All available npm scripts:
 
-```json
-{
-  "scripts": {
-    "test": "playwright test",
-    "test:headed": "playwright test --headed",
-    "test:chrome": "playwright test --project=chromium",
-    "test:firefox": "playwright test --project=firefox",
-    "test:debug": "playwright test --debug",
-    "test:ui": "playwright test --ui"
-  }
-}
-```
-
-Then run:
 ```bash
-npm test              # Run all tests headless
-npm run test:headed   # Run all tests headed
-npm run test:chrome   # Run tests in Chrome only
+npm test              # Run all E2E tests headless
+npm run test:headed   # Run all E2E tests headed
+npm run test:chrome   # Run E2E tests in Chrome only
+npm run test:firefox  # Run E2E tests in Firefox only
+npm run test:debug    # Run E2E tests in debug mode
+npm run test:ui       # Run E2E tests in UI mode
+npm run test:report   # View HTML test report
+npm run load-test     # Run basic K6 API load test
+npm run load-test:all # Run all 11 K6 test scripts
+npm run load-test:quick # Run first 3 K6 test scripts
 ```
 
 ## Load Testing
 
-### Running K6 Load Tests
+### Quick Start - Run All K6 Tests (Single Command)
+
+**Run all 11 K6 load test scripts in one command:**
+```bash
+npm run load-test:all
+```
+
+This will run all K6 test scripts sequentially:
+- 01-load-test.js
+- 02-stress-test.js
+- 03-spike-test.js
+- 04-soak-test.js
+- 05-scalability-test.js
+- 06-crud-operations-test.js
+- 07-error-handling-test.js
+- 08-concurrent-requests-test.js
+- 09-volume-test.js
+- 10-performance-benchmark-test.js
+- api-load-test.js
+
+**Estimated Time**: ~10-15 minutes (with fast testing configuration)
+
+### Quick Test (First 3 Scripts)
+
+**Run quick test suite (first 3 scripts):**
+```bash
+npm run load-test:quick
+```
+
+**Estimated Time**: ~3-5 minutes
+
+### Running Individual K6 Load Tests
 
 ```bash
-# Basic execution
-k6 run load-tests/k6-scripts/api-load-test.js
+# Load Test - Normal expected load
+k6 run load-tests/k6-scripts/01-load-test.js
 
+# Stress Test - Beyond normal capacity
+k6 run load-tests/k6-scripts/02-stress-test.js
+
+# Spike Test - Sudden load increases
+k6 run load-tests/k6-scripts/03-spike-test.js
+
+# Soak Test - Extended duration testing
+k6 run load-tests/k6-scripts/04-soak-test.js
+
+# Scalability Test - System growth capacity
+k6 run load-tests/k6-scripts/05-scalability-test.js
+
+# CRUD Operations Test - Complete API operations
+k6 run load-tests/k6-scripts/06-crud-operations-test.js
+
+# Error Handling Test - Error scenarios
+k6 run load-tests/k6-scripts/07-error-handling-test.js
+
+# Concurrent Requests Test - Multiple simultaneous requests
+k6 run load-tests/k6-scripts/08-concurrent-requests-test.js
+
+# Volume Test - Large amount of data
+k6 run load-tests/k6-scripts/09-volume-test.js
+
+# Performance Benchmark Test - Baseline performance metrics
+k6 run load-tests/k6-scripts/10-performance-benchmark-test.js
+
+# API Load Test - Basic API load testing
+k6 run load-tests/k6-scripts/api-load-test.js
+```
+
+### Advanced K6 Options
+
+```bash
 # With custom virtual users and duration
 k6 run --vus 10 --duration 30s load-tests/k6-scripts/api-load-test.js
 
@@ -192,6 +308,24 @@ k6 run --stage 30s:20 --stage 1m:20 --stage 30s:0 load-tests/k6-scripts/api-load
 # Save results to JSON
 k6 run --out json=reports/k6-results.json load-tests/k6-scripts/api-load-test.js
 ```
+
+### All K6 Test Scripts
+
+| Script | Description | Duration (Fast Config) |
+|--------|-------------|------------------------|
+| `01-load-test.js` | Normal expected load | ~50s |
+| `02-stress-test.js` | Beyond normal capacity | ~1m |
+| `03-spike-test.js` | Sudden load increases | ~45s |
+| `04-soak-test.js` | Extended duration | ~50s |
+| `05-scalability-test.js` | System growth capacity | ~1m |
+| `06-crud-operations-test.js` | Complete API operations | ~40s |
+| `07-error-handling-test.js` | Error scenarios | ~40s |
+| `08-concurrent-requests-test.js` | Multiple simultaneous requests | ~1m |
+| `09-volume-test.js` | Large amount of data | ~40s |
+| `10-performance-benchmark-test.js` | Baseline performance metrics | ~40s |
+| `api-load-test.js` | Basic API load testing | ~40s |
+
+**Note**: All scripts are configured for fast testing (5-10 users). Original high-load configurations are preserved as comments. See `load-tests/FAST-TESTING-CONFIG.md` for details.
 
 ### Understanding K6 Results
 

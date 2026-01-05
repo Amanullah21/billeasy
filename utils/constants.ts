@@ -2,7 +2,11 @@
  * Constants used across the test framework
  */
 
+// Base URL for Playwright E2E tests
 export const BASE_URL = 'https://www.saucedemo.com';
+
+// Base URL for K6 performance/load testing
+export const BASE_URL2 = 'https://jsonplaceholder.typicode.com';
 
 // Timeouts
 export const TIMEOUTS = {

@@ -158,11 +158,8 @@ test.describe('Checkout Flow Tests', () => {
 
   test('should update quantity in cart', async ({ page }) => {
     test.setTimeout(60000);
-    // Note: SauceDemo doesn't support quantity updates directly in cart
-    // To have multiple quantities, you need to add the same product multiple times from inventory
-    // However, once added, the button changes to "Remove", so we need to add, remove, then add again
-    // OR we can verify that the cart shows items correctly when multiple different products are added
-    
+    // Note: SauceDemo doesn't support direct quantity updates in cart
+    // To simulate quantity changes, we verify adding/removing items works correctly
     await homePage.navigateToHome();
     await homePage.wait(2000);
     
@@ -181,7 +178,7 @@ test.describe('Checkout Flow Tests', () => {
     let itemCount = await cartPage.getCartItemCount();
     expect(itemCount).toBe(1);
     
-    // Go back to inventory
+    // Go back to inventory using continue shopping
     await cartPage.clickContinueShopping();
     await homePage.wait(2000);
     
@@ -203,5 +200,6 @@ test.describe('Checkout Flow Tests', () => {
     
     // Note: In SauceDemo, you cannot directly update quantity in cart
     // Each product addition creates a separate line item
+    // To increase quantity, you would need to remove and re-add, or add from inventory
   });
 });

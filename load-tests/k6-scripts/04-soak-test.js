@@ -25,7 +25,7 @@ export const options = {
     http_req_failed: ["rate<0.05"], // Allow some failures in long test
     errors: ["rate<0.05"],
     // Monitor for gradual degradation
-    "http_req_duration{type:avg}": ["value<500"], // Average should stay reasonable
+    http_req_duration: ["avg<500"], // Average should stay reasonable
   },
 };
 

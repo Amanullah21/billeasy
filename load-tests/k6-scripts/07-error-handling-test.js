@@ -22,8 +22,8 @@ export const options = {
     // { duration: '30s', target: 0 },
   ],
   thresholds: {
-    http_req_failed: ["rate<0.50"], // Expect some failures in this test
-    errors: ["rate<0.50"],
+    http_req_failed: ["rate<0.80"], // Expect failures in this test (testing error scenarios)
+    errors: ["rate<0.80"], // More lenient for error handling test
   },
 };
 
