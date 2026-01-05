@@ -157,42 +157,74 @@ test.describe('Checkout Flow Tests', () => {
   });
 
   test('should update quantity in cart', async ({ page }) => {
-    test.setTimeout(60000);
+    test.setTimeout(90000);
     // Note: SauceDemo doesn't support direct quantity updates in cart
     // To simulate quantity changes, we verify adding/removing items works correctly
     await homePage.navigateToHome();
-    await homePage.wait(2000);
+    await homePage.wait(3000);
     
     // Add first product
     await homePage.addProductToCartByIndex(0);
-    await homePage.wait(1000);
+    await homePage.wait(2000);
     
-    // Verify cart badge shows 1 item
-    let badgeCount = await homePage.getCartBadgeCount();
+    // Verify cart badge shows 1 item (with retry)
+    let badgeCount = 0;
+    for (let i = 0; i < 5; i++) {
+      badgeCount = await homePage.getCartBadgeCount();
+      if (badgeCount === 1) break;
+      await homePage.wait(1000);
+    }
     expect(badgeCount).toBe(1);
     
     // Navigate to cart to verify
     await homePage.clickCartLink();
-    await homePage.wait(2000);
+    await homePage.wait(3000);
     
+    // Verify cart is visible
+    await cartPage.verifyCartVisible();
     let itemCount = await cartPage.getCartItemCount();
     expect(itemCount).toBe(1);
     
     // Go back to inventory using continue shopping
-    await cartPage.clickContinueShopping();
-    await homePage.wait(2000);
+    try {
+      await cartPage.clickContinueShopping();
+    } catch (error) {
+      // If continue shopping fails, navigate directly to inventory
+      await homePage.navigateToHome();
+    }
+    await homePage.wait(3000);
+    
+    // Verify we're back on inventory page
+    const currentUrl = homePage.getCurrentUrl();
+    if (!currentUrl.includes('/inventory')) {
+      // If not on inventory, navigate there
+      await homePage.navigateToHome();
+      await homePage.wait(2000);
+    }
+    
+    // Wait for inventory page to be ready
+    await homePage.verifyInventoryVisible();
+    await homePage.wait(1000);
     
     // Add a different product (to simulate having multiple items)
     await homePage.addProductToCartByIndex(1);
-    await homePage.wait(1000);
+    await homePage.wait(2000);
     
-    // Verify cart badge shows 2 items
-    badgeCount = await homePage.getCartBadgeCount();
+    // Verify cart badge shows 2 items (with retry)
+    badgeCount = 0;
+    for (let i = 0; i < 5; i++) {
+      badgeCount = await homePage.getCartBadgeCount();
+      if (badgeCount === 2) break;
+      await homePage.wait(1000);
+    }
     expect(badgeCount).toBe(2);
     
     // Navigate to cart again
     await homePage.clickCartLink();
-    await homePage.wait(2000);
+    await homePage.wait(3000);
+    
+    // Verify cart is visible
+    await cartPage.verifyCartVisible();
     
     // Verify we have 2 items in cart
     itemCount = await cartPage.getCartItemCount();

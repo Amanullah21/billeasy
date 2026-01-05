@@ -1,6 +1,7 @@
 import http from 'k6/http';
 import { check, sleep } from 'k6';
 import { Rate, Trend } from 'k6/metrics';
+import { BASE_URL } from '../k6-config.js';
 
 /**
  * CRUD Operations Test - Complete API Operations
@@ -25,8 +26,6 @@ export const options = {
     errors: ["rate<0.05"],
   },
 };
-
-const BASE_URL = 'https://jsonplaceholder.typicode.com';
 
 export default function () {
   // CREATE - POST request

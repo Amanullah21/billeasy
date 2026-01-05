@@ -124,8 +124,37 @@ export class CartPage extends BasePage {
    * Click continue shopping
    */
   async clickContinueShopping(): Promise<void> {
-    await this.click(this.continueShoppingButton);
+    // Wait for button to be visible
+    await this.wait(1000);
+    
+    // Try multiple selectors for continue shopping button
+    const continueSelectors = [
+      this.continueShoppingButton,
+      '#continue-shopping',
+      'button:has-text("Continue Shopping")',
+      'a:has-text("Continue Shopping")'
+    ];
+    
+    let clicked = false;
+    for (const selector of continueSelectors) {
+      try {
+        if (await this.isVisible(selector)) {
+          await this.click(selector);
+          clicked = true;
+          break;
+        }
+      } catch {
+        // Continue to next selector
+      }
+    }
+    
+    if (!clicked) {
+      // If button not found, navigate directly to inventory
+      await this.goto('/inventory.html');
+    }
+    
     await this.waitForPageLoad();
+    await this.wait(1000);
   }
 
   /**

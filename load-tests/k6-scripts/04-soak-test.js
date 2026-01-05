@@ -1,6 +1,7 @@
 import http from "k6/http";
 import { check, sleep } from "k6";
 import { Rate, Trend, Gauge } from "k6/metrics";
+import { BASE_URL } from "../k6-config.js";
 
 /**
  * Soak/Endurance Testing - Extended Duration
@@ -28,8 +29,6 @@ export const options = {
     http_req_duration: ["avg<500"], // Average should stay reasonable
   },
 };
-
-const BASE_URL = "https://jsonplaceholder.typicode.com";
 
 export default function () {
   activeUsers.add(1);

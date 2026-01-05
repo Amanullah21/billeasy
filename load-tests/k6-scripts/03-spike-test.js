@@ -1,6 +1,7 @@
 import http from "k6/http";
 import { check, sleep } from "k6";
 import { Rate, Trend } from "k6/metrics";
+import { BASE_URL } from "../k6-config.js";
 
 /**
  * Spike Testing - Sudden Load Increases
@@ -33,8 +34,6 @@ export const options = {
     errors: ["rate<0.15"],
   },
 };
-
-const BASE_URL = "https://jsonplaceholder.typicode.com";
 
 export default function () {
   // Test multiple endpoints simultaneously

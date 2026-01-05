@@ -1,6 +1,7 @@
 import http from 'k6/http';
 import { check, sleep } from 'k6';
 import { Rate, Trend, Counter } from 'k6/metrics';
+import { BASE_URL } from '../k6-config.js';
 
 /**
  * Volume Testing - Large Amount of Data
@@ -26,8 +27,6 @@ export const options = {
     errors: ["rate<0.05"],
   },
 };
-
-const BASE_URL = 'https://jsonplaceholder.typicode.com';
 
 export default function () {
   // Test 1: Get all posts (large dataset)

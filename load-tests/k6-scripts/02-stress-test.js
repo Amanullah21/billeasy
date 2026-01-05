@@ -1,6 +1,7 @@
 import http from "k6/http";
 import { check, sleep } from "k6";
 import { Rate, Trend, Counter } from "k6/metrics";
+import { BASE_URL } from "../k6-config.js";
 
 /**
  * Stress Testing - Beyond Normal Capacity
@@ -34,8 +35,6 @@ export const options = {
     errors: ["rate<0.20"],
   },
 };
-
-const BASE_URL = "https://jsonplaceholder.typicode.com";
 
 export default function () {
   // Mix of different request types to simulate real stress

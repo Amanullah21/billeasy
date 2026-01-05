@@ -2,6 +2,15 @@
 
 This directory contains K6 load testing scripts for API performance testing.
 
+## Base URL Configuration
+
+**Base URLs are documented in `playwright.config.ts`:**
+
+- **E2E Testing (Playwright)**: `https://www.saucedemo.com` (configured in `playwright.config.ts`)
+- **Load Testing (K6)**: `https://jsonplaceholder.typicode.com` (configured in `k6-config.js`)
+
+All K6 scripts import the base URL from `k6-config.js` for centralized configuration. See `playwright.config.ts` for complete base URL documentation and references.
+
 ## Prerequisites
 
 Install K6 based on your operating system:
@@ -96,7 +105,7 @@ This directory contains comprehensive load testing scripts covering all types of
 
 **Run**:
 
-```bash       
+```bash
 k6 run load-tests/k6-scripts/01-load-test.js
 ```
 

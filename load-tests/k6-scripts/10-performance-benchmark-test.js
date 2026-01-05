@@ -1,6 +1,7 @@
 import http from "k6/http";
 import { check, sleep } from "k6";
 import { Rate, Trend, Counter } from "k6/metrics";
+import { BASE_URL } from "../k6-config.js";
 
 /**
  * Performance Benchmark Test - Baseline Performance Metrics
@@ -28,8 +29,6 @@ export const options = {
     success: ["rate>0.99"], // 99% success rate
   },
 };
-
-const BASE_URL = "https://jsonplaceholder.typicode.com";
 
 export default function () {
   // Benchmark different operations

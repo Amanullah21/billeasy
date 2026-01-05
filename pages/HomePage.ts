@@ -113,8 +113,23 @@ export class HomePage extends BasePage {
    */
   async getCartBadgeCount(): Promise<number> {
     try {
-      const badge = await this.page.locator(this.cartBadge).textContent();
-      return badge ? parseInt(badge) : 0;
+      // Wait a bit for badge to update
+      await this.wait(500);
+      
+      // Try to find the badge
+      const badgeLocator = this.page.locator(this.cartBadge);
+      const isVisible = await badgeLocator.isVisible().catch(() => false);
+      
+      if (!isVisible) {
+        return 0; // No badge means empty cart
+      }
+      
+      const badge = await badgeLocator.textContent();
+      if (badge) {
+        const count = parseInt(badge.trim());
+        return isNaN(count) ? 0 : count;
+      }
+      return 0;
     } catch {
       return 0;
     }

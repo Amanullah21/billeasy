@@ -1,6 +1,7 @@
 import http from 'k6/http';
 import { check, sleep } from 'k6';
 import { Rate, Trend } from 'k6/metrics';
+import { BASE_URL } from '../k6-config.js';
 
 /**
  * Concurrent Requests Test - Multiple Simultaneous Requests
@@ -29,8 +30,6 @@ export const options = {
     errors: ["rate<0.10"],
   },
 };
-
-const BASE_URL = 'https://jsonplaceholder.typicode.com';
 
 export default function () {
   // Make multiple concurrent requests using http.batch

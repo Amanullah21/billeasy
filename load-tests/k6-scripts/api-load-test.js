@@ -1,6 +1,7 @@
 import http from "k6/http";
 import { check, sleep } from "k6";
 import { Rate, Trend } from "k6/metrics";
+import { BASE_URL } from "../k6-config.js";
 
 // Custom metrics
 const errorRate = new Rate("errors");
@@ -25,9 +26,6 @@ export const options = {
     errors: ["rate<0.05"], // Custom error rate - more lenient
   },
 };
-
-// Base URL for the API (using JSONPlaceholder as example)
-const BASE_URL = "https://jsonplaceholder.typicode.com";
 
 export default function () {
   // Test 1: GET request - Fetch posts

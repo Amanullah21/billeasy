@@ -1,6 +1,24 @@
 import { defineConfig, devices } from '@playwright/test';
 
 /**
+ * Playwright Configuration for E2E Testing
+ * 
+ * IMPORTANT: This file is for E2E (End-to-End) testing only.
+ * 
+ * Performance/Load Testing is done separately using K6:
+ * - K6 scripts location: load-tests/k6-scripts/*.js
+ * - Run all K6 tests: npm run load-test:all
+ * - Run quick K6 tests: npm run load-test:quick
+ * 
+ * BASE URLs Configuration:
+ * - E2E Testing (Playwright): https://www.saucedemo.com
+ * - Load Testing (K6): https://jsonplaceholder.typicode.com
+ *   (See load-tests/k6-scripts/*.js - BASE_URL constant in each file)
+ * 
+ * See load-tests/README.md for detailed K6 load testing documentation.
+ */
+
+/**
  * Read environment variables from file.
  * https://github.com/motdotla/dotenv
  */
@@ -30,11 +48,10 @@ export default defineConfig({
   use: {
     /* 
      * Base URL for E2E Testing (Playwright)
-     * E2E tests target: https://www.saucedemo.com
      * 
-     * Note: Load tests (K6) use a different base URL:
-     * K6 load tests target: https://jsonplaceholder.typicode.com
-     * See load-tests/k6-scripts/*.js files for K6 configuration
+     * Reference: This is the base URL used by all Playwright E2E tests.
+     * Load tests (K6) use a different base URL - see BASE_URL constant
+     * in load-tests/k6-scripts/*.js files (https://jsonplaceholder.typicode.com)
      */
     baseURL: 'https://www.saucedemo.com',
     /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
