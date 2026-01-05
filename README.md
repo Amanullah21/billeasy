@@ -101,6 +101,8 @@ npm test
 
 # Run load tests
 npm run load-test:quick
+npm run load-test:all            # Run all 11 K6 test scripts (~10-15 min)
+
 ```
 
 ## Project Structure

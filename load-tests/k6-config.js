@@ -14,3 +14,5 @@
 // This matches BASE_URL2 in utils/constants.ts
 export const BASE_URL = "https://jsonplaceholder.typicode.com";
 
+
+
