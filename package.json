@@ -1,0 +1,35 @@
+{
+  "name": "billeasy",
+  "version": "1.0.0",
+  "description": "E2E Testing & Load Testing Framework with Playwright and K6",
+  "main": "index.js",
+  "scripts": {
+    "test": "playwright test",
+    "test:headed": "playwright test --headed",
+    "test:chrome": "playwright test --project=chromium",
+    "test:firefox": "playwright test --project=firefox",
+    "test:debug": "playwright test --debug",
+    "test:ui": "playwright test --ui",
+    "test:report": "playwright show-report reports/html-report",
+    "load-test": "k6 run load-tests/k6-scripts/api-load-test.js",
+    "load-test:all": "./load-tests/run-all-tests.sh",
+    "load-test:quick": "k6 run load-tests/k6-scripts/01-load-test.js && k6 run load-tests/k6-scripts/02-stress-test.js && k6 run load-tests/k6-scripts/03-spike-test.js"
+  },
+  "keywords": [
+    "playwright",
+    "e2e-testing",
+    "load-testing",
+    "k6",
+    "typescript",
+    "test-automation",
+    "page-object-model"
+  ],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "devDependencies": {
+    "@playwright/test": "^1.57.0",
+    "@types/node": "^25.0.3",
+    "typescript": "^5.9.3"
+  }
+}

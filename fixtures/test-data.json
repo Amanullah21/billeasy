@@ -1,0 +1,49 @@
+{
+  "users": {
+    "standard": {
+      "username": "standard_user",
+      "password": "secret_sauce"
+    },
+    "locked": {
+      "username": "locked_out_user",
+      "password": "secret_sauce"
+    },
+    "problem": {
+      "username": "problem_user",
+      "password": "secret_sauce"
+    },
+    "performance": {
+      "username": "performance_glitch_user",
+      "password": "secret_sauce"
+    },
+    "invalid": {
+      "username": "invalid_user",
+      "password": "wrong_password"
+    },
+    "nonExistent": {
+      "username": "nonexistent_user",
+      "password": "secret_sauce"
+    }
+  },
+  "products": {
+    "product1": {
+      "name": "Sauce Labs Backpack",
+      "price": "$29.99"
+    },
+    "product2": {
+      "name": "Sauce Labs Bike Light",
+      "price": "$9.99"
+    },
+    "product3": {
+      "name": "Sauce Labs Bolt T-Shirt",
+      "price": "$15.99"
+    }
+  },
+  "checkout": {
+    "information": {
+      "firstName": "John",
+      "lastName": "Doe",
+      "postalCode": "12345"
+    }
+  }
+}
