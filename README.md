@@ -1,6 +1,6 @@
 # E2E Testing & Load Testing Framework
 
-A comprehensive test automation framework built with Playwright (TypeScript) for E2E testing and K6 for load testing. This framework follows the Page Object Model (POM) pattern and includes scalable folder structure, cross-browser testing, and performance testing capabilities.
+A comprehensive test automation framework built with Playwright (TypeScript) for E2E testing and K6 for load testing. This framework follows the Page Object Model (POM) pattern and includes scalable folder structure, cross-browser testing, performance testing, and comprehensive security testing capabilities.
 
 ## Table of Contents
 
@@ -15,6 +15,7 @@ A comprehensive test automation framework built with Playwright (TypeScript) for
 - [Test Reports](#test-reports)
 - [Troubleshooting](#troubleshooting)
 - [Application Under Test](#application-under-test)
+- [Security Testing](#security-testing)
 - [Contributing](#contributing)
 
 ## Tech Stack
@@ -115,7 +116,8 @@ billeasy/
 │   │   ├── navigation.spec.ts
 │   │   ├── form-submission.spec.ts
 │   │   ├── checkout-flow.spec.ts
-│   │   └── error-handling.spec.ts
+│   │   ├── error-handling.spec.ts
+│   │   └── security.spec.ts    # Security tests (SQL injection, XSS, brute force, etc.)
 ├── pages/                      # Page Object Model classes
 │   ├── BasePage.ts            # Base page with common methods
 │   ├── LoginPage.ts
@@ -179,6 +181,21 @@ npx playwright test tests/e2e/navigation.spec.ts
 npx playwright test tests/e2e/form-submission.spec.ts
 npx playwright test tests/e2e/checkout-flow.spec.ts
 npx playwright test tests/e2e/error-handling.spec.ts
+npx playwright test tests/e2e/security.spec.ts
+```
+
+#### Run Security Tests
+
+```bash
+# Run all security tests
+npx playwright test tests/e2e/security.spec.ts
+
+# Run specific security test suites
+npx playwright test tests/e2e/security.spec.ts -g "SQL Injection"
+npx playwright test tests/e2e/security.spec.ts -g "Brute Force"
+npx playwright test tests/e2e/security.spec.ts -g "XSS"
+npx playwright test tests/e2e/security.spec.ts -g "Authentication Bypass"
+npx playwright test tests/e2e/security.spec.ts -g "Sensitive Data Exposure"
 ```
 
 #### Advanced Playwright Commands
@@ -282,7 +299,7 @@ npx playwright test --timeout=60000
 npx playwright test --project=chromium --headed
 
 # Generate code for new test
-npx playwright codegen https://automationexercise.com
+npx playwright codegen https://www.saucedemo.com
 ```
 
 ### NPM Scripts
@@ -355,20 +372,35 @@ After running tests, view the HTML report:
 
 ```bash
 npx playwright show-report reports/html-report
+# or
+npm run test:report
 ```
+
+**Note:** Reports are auto-generated when tests run. The `reports/` directory is excluded from Git (see `.gitignore`) as reports are generated artifacts.
 
 ### JSON Report
 
 JSON test results are saved to: `reports/test-results.json`
 
-### Screenshots
+### Screenshots and Videos
 
-Screenshots on failure are saved to: `reports/screenshots/`
+- Screenshots on failure: `reports/screenshots/`
+- Videos on failure: `test-results/` (Playwright default location)
+- Traces on retry: Available in HTML report
 
 ### K6 Reports
 
 K6 test results are saved to: `reports/k6-*-test-summary.json` (one file per test script)
 See [load-tests/README.md](load-tests/README.md) for detailed K6 reporting information.
+
+### Report Generation
+
+Reports are automatically generated when you run tests:
+
+- **E2E Tests**: Generate HTML and JSON reports in `reports/` directory
+- **K6 Tests**: Generate JSON summary files in `reports/` directory
+- Reports are **not committed to Git** (excluded in `.gitignore`)
+- Reports are **generated locally** each time tests are run
 
 ## Troubleshooting
 
@@ -441,11 +473,93 @@ The website includes:
 - Shopping cart functionality
 - Checkout process
 
+**Base URL Configuration:**
+
+- E2E tests use: `https://www.saucedemo.com` (configured in `playwright.config.ts`)
+- Test data is stored in `fixtures/test-data.json`
+
 ### Load Testing Target
 
 K6 load tests target the **JSONPlaceholder** API: https://jsonplaceholder.typicode.com
 
 This is a free fake REST API for testing and prototyping, perfect for load testing scenarios.
+
+**Base URL Configuration:**
+
+- K6 tests use: `https://jsonplaceholder.typicode.com` (configured in `load-tests/k6-config.js`)
+- All K6 scripts import the base URL from the shared config file
+
+## Security Testing
+
+The framework includes comprehensive security tests covering:
+
+### SQL Injection Tests
+
+- Username field SQL injection attempts
+- Password field SQL injection attempts
+- Checkout form SQL injection attempts
+
+### Brute Force Attack Tests
+
+- Common password dictionary attacks
+- Rapid login attempt scenarios
+- Rate limiting verification
+
+### XSS (Cross-Site Scripting) Tests
+
+- Username field XSS payloads
+- Password field XSS payloads
+- Checkout form XSS payloads
+
+### Input Validation Tests
+
+- Extremely long input strings
+- Special characters and emojis
+- Null/undefined value handling
+- SQL-like pattern detection
+
+### Authentication Bypass Tests
+
+- URL manipulation attempts
+- Cookie/session hijacking prevention
+- Empty credentials validation
+- Partial credentials validation
+
+### Path Traversal Tests
+
+- Directory traversal attempts
+- System file access prevention
+
+### Session Management Tests
+
+- Session invalidation on logout
+- Concurrent session handling
+
+### CSRF Tests
+
+- Cross-Site Request Forgery protection
+
+### Sensitive Data Exposure Tests
+
+- Password field type verification
+- Password visibility checks
+- URL parameter exposure checks
+
+### Running Security Tests
+
+```bash
+# Run all security tests
+npm test -- tests/e2e/security.spec.ts
+
+# Run specific security test suite
+npm test -- tests/e2e/security.spec.ts -g "SQL Injection"
+npm test -- tests/e2e/security.spec.ts -g "Brute Force"
+npm test -- tests/e2e/security.spec.ts -g "XSS"
+npm test -- tests/e2e/security.spec.ts -g "Authentication Bypass"
+npm test -- tests/e2e/security.spec.ts -g "Sensitive Data Exposure"
+```
+
+**Note:** Security tests may take longer to run (3+ minutes) due to multiple payload iterations. Timeouts are configured accordingly.
 
 ## Contributing
 
