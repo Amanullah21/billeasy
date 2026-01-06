@@ -560,16 +560,3 @@ npm test -- tests/e2e/security.spec.ts -g "Sensitive Data Exposure"
 ```
 
 **Note:** Security tests may take longer to run (3+ minutes) due to multiple payload iterations. Timeouts are configured accordingly.
-
-## Contributing
-
-1. Follow the Page Object Model pattern
-2. Add new page objects in the `pages/` directory
-3. Add test data in `fixtures/test-data.json`
-4. Write descriptive test names
-5. Include proper assertions
-6. Update documentation as needed
-
-## License
-
-ISC
